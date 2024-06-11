@@ -1,11 +1,14 @@
 export let cart = [];
 export function assignCartVariable(){
+  console.log('form assigncartvariable function')
   cart = JSON.parse(localStorage.getItem('cart')) || [{
     id:"e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-    quantity:2
+    quantity:2,
+    deliveryOptionId:'1'
   },{
     id:"15b6fc6f-327a-4ec4-896f-486349e85a3d",
-    quantity:1
+    quantity:1,
+    deliveryOptionId:'2'
   }]
 }
 export function removeCartItem(id){
@@ -19,7 +22,8 @@ export function addItemsToCart(id,quantityToAdd){
   }else{
     cart.push({
          id,
-        quantity:quantityToAdd
+        quantity:quantityToAdd,
+        deliveryOptionId:'1'
         })
   }
   saveCartToLOcalStorage();
@@ -37,4 +41,11 @@ export function saveCartToLOcalStorage(){
 export function updateCartQuantity(){
    const TOTAL_CART_QUANTITY = cart.reduce((total,product) => total + product.quantity,0);
    return TOTAL_CART_QUANTITY;
+}
+export function updateDeliveryOption(id,deliveryOptionId){
+  const product=cart.find(product => product.id === id);
+  if(product){
+    product.deliveryOptionId = deliveryOptionId;
+  }
+  saveCartToLOcalStorage();
 }
